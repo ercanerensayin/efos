@@ -1,0 +1,9 @@
+﻿EFOS Video Indirici - Windows kaynak kodu (v1.1)
+
+Gereken: .NET 10 SDK
+Derleme (windows klasorunde):
+  dotnet publish -c Release -r win-x64 --self-contained false -p:PublishSingleFile=true
+
+Not: ortak\efos.json (metinler, renkler, yt-dlp ayarlari) exe'ye gomulur;
+klasor yapisini (windows ve ortak yan yana) bozmayin.
+Calismasi icin yt-dlp.exe (ve ffmpeg) PATH'te veya exe'nin yaninda olmali.

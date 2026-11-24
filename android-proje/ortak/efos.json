@@ -1,0 +1,103 @@
+{
+  "_aciklama": "EFOS Video İndirici - Windows ve Android sürümlerinin ORTAK dosyası. Renkler, metinler, yt-dlp ayarları ve hata çevirileri yalnızca burada değiştirilir; iki sürüm de derlenirken bu dosyayı içine alır.",
+  "ad": "EFOS Video İndirici",
+  "slogan": "YouTube, Instagram, X, TikTok ve 1000+ siteden indirin",
+  "klasor": "Videolar",
+
+  "renkler": {
+    "arkaPlan": "#F5F6F8",
+    "kart": "#FFFFFF",
+    "kenar": "#E1E4EA",
+    "kenarUzerinde": "#C4CBD6",
+    "yazi": "#1C212B",
+    "soluk": "#6A717E",
+    "vurgu": "#2F66F0",
+    "vurguUzerinde": "#2456D9",
+    "vurguBasili": "#1D47B8",
+    "vurguYumusak": "#ECF2FF",
+    "pasif": "#B9C4D8",
+    "tehlike": "#E5484D",
+    "tehlikeUzerinde": "#D13A40",
+    "yesil": "#168A4A",
+    "kirmizi": "#D03036",
+    "logoUst": "#5B95FF",
+    "logoAlt": "#2348D8"
+  },
+
+  "ytdlp": {
+    "ortak": [
+      "--newline", "--progress", "--no-quiet", "--no-colors", "--encoding", "utf-8",
+      "--progress-template", "download:PROG|%(progress._percent_str)s|%(progress._speed_str)s|%(progress._eta_str)s",
+      "--print", "before_dl:TITLE|%(title)s",
+      "--print", "after_move:FILE|%(filepath)s",
+      "--no-simulate"
+    ],
+    "cikti": "%(title).150B.%(ext)s",
+    "video": ["-f", "{format}", "-S", "vcodec:h264,res,acodec:m4a", "--merge-output-format", "mp4"],
+    "mp3": ["-f", "ba/b", "-x", "--audio-format", "mp3", "--audio-quality", "0", "--embed-metadata", "--embed-thumbnail"],
+    "listeKapali": ["--no-playlist"],
+    "listeAcik": ["--yes-playlist"],
+    "kaliteler": [
+      { "ad": "En iyi", "format": "bv*+ba/b" },
+      { "ad": "1080p", "format": "bv*[height<=1080]+ba/b[height<=1080]/b" },
+      { "ad": "720p", "format": "bv*[height<=720]+ba/b[height<=720]/b" },
+      { "ad": "480p", "format": "bv*[height<=480]+ba/b[height<=480]/b" }
+    ]
+  },
+
+  "metinler": {
+    "hazir": "Hazır",
+    "ipucu": "Bağlantıyı yapıştırın, Video ya da MP3'e basın.",
+    "yerTutucu": "Video bağlantısını buraya yapıştırın",
+    "yapistir": "Yapıştır",
+    "videoIndir": "Video indir",
+    "mp3Indir": "MP3 indir",
+    "iptal": "İptal",
+    "klasoruAc": "Klasörü aç",
+    "dosyayiGoster": "Dosyayı göster",
+    "dosyayiAc": "Dosyayı aç",
+    "guncelle": "Güncelle",
+    "ayarlar": "Ayarlar",
+    "kalite": "Video kalitesi",
+    "listeyiIndir": "Oynatma listesinin tamamını indir",
+    "panodaBaglantiYok": "Panoda bir bağlantı yok.",
+    "gecersizBaglanti": "Lütfen geçerli bir video bağlantısı yapıştırın.",
+    "inceleniyor": "Bağlantı inceleniyor…",
+    "bilgiAliniyor": "Video bilgileri alınıyor",
+    "indiriliyor": "İndiriliyor",
+    "kaldi": "kaldı",
+    "sesParcasi": "ses parçası",
+    "birlestiriliyor": "Görüntü ve ses birleştiriliyor…",
+    "donusturuluyor": "MP3'e dönüştürülüyor…",
+    "iptalEdildi": "İndirme iptal edildi.",
+    "tamamlandi": "Tamamlandı · {0} klasörüne kaydedildi",
+    "indirilemedi": "İndirilemedi",
+    "ytdlpYok": "yt-dlp bulunamadı. Güncelle'ye basarak kurmayı deneyin.",
+    "guncellemeKontrol": "Güncellemeler kontrol ediliyor… (bu biraz sürebilir)",
+    "guncellemeBasarisiz": "Güncelleme başarısız oldu. İnternet bağlantınızı kontrol edin.",
+    "guncellendi": "Güncellendi: {0} → {1}",
+    "kuruldu": "yt-dlp kuruldu ({0}).",
+    "herSeyGuncel": "Her şey güncel.",
+    "cikisSorusu": "İndirme sürüyor. Durdurup çıkmak istiyor musunuz?",
+    "tarayicidaAra": "Tarayıcıda video ara",
+    "videoAraniyor": "Sayfada video aranıyor… Gerekirse oynat tuşuna basın",
+    "videoBulundu": "Video akışı yakalandı, indiriliyor…",
+    "hataAyrinti": "Ayrıntı için dokunun"
+  },
+
+  "hatalar": [
+    { "ara": ["not a bot", "confirm you're not a bot"], "mesaj": "Site bot doğrulaması istiyor. Güncelle'ye basıp tekrar deneyin." },
+    { "ara": ["age-restricted", "confirm your age"], "mesaj": "Bu video yaş sınırlamasına sahip; giriş yapmadan indirilemiyor." },
+    { "ara": ["not available in your country", "geo-restricted", "geo restricted"], "mesaj": "Bu video bulunduğunuz bölgede kullanılamıyor." },
+    { "ara": ["no space left on device", "not enough space"], "mesaj": "Cihazda yeterli depolama alanı yok." },
+    { "ara": ["drm", "widevine"], "mesaj": "Bu video DRM korumalı olduğu için indirilemiyor." },
+    { "ara": ["requested format is not available"], "mesaj": "Bu kalite yok. Ayarlar'dan başka bir kalite seçin." },
+    { "ara": ["unsupported url"], "mesaj": "Bu site veya bağlantı doğrudan desteklenmiyor." },
+    { "ara": ["private"], "mesaj": "Bu video gizli; indirilemiyor." },
+    { "ara": ["sign in", "login", "log in"], "mesaj": "Bu video giriş yapmayı gerektiriyor." },
+    { "ara": ["unavailable", "not available"], "mesaj": "Video kullanılamıyor veya kaldırılmış." },
+    { "ara": ["unable to download webpage", "getaddrinfo", "timed out", "network is unreachable"], "mesaj": "Bağlantı kurulamadı. İnternetinizi kontrol edin." },
+    { "ara": ["ffmpeg", "ffprobe"], "mesaj": "FFmpeg bulunamadı. Güncelle'ye basın." }
+  ],
+  "bilinmeyenHata": "Bir hata oluştu. Güncelle'ye basıp tekrar deneyin."
+}

@@ -1,0 +1,44 @@
+name: EFOS Derle
+on: { push: { branches: [efos-video] }, workflow_dispatch: {} }
+permissions: { contents: write }
+jobs:
+  apk:
+    runs-on: ubuntu-latest
+    defaults: { run: { working-directory: android-proje/android } }
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with: { distribution: temurin, java-version: '17' }
+      - name: APK derle
+        run: |
+          chmod +x gradlew
+          ./gradlew assembleRelease --no-daemon --stacktrace
+          cp app/build/outputs/apk/release/app-release.apk $GITHUB_WORKSPACE/EFOS.apk
+      - uses: actions/upload-artifact@v4
+        with: { name: apk, path: EFOS.apk }
+  exe:
+    runs-on: windows-latest
+    defaults: { run: { working-directory: windows-proje/windows } }
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with: { dotnet-version: '10.0.x' }
+      - name: EXE derle
+        run: |
+          dotnet publish -c Release -r win-x64 --self-contained false -p:PublishSingleFile=true -o out
+          dir out
+          Copy-Item out/EFOS.exe $env:GITHUB_WORKSPACE/EFOS.exe
+      - uses: actions/upload-artifact@v4
+        with: { name: exe, path: EFOS.exe }
+  yayinla:
+    needs: [apk, exe]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with: { merge-multiple: true }
+      - name: Releases'a koy
+        env: { GH_TOKEN: "${{ github.token }}" }
+        run: |
+          ls -l
+          gh release delete efos-video-son -y --cleanup-tag -R ${{ github.repository }} || true
+          gh release create efos-video-son EFOS.apk EFOS.exe -R ${{ github.repository }} --title "EFOS Video İndirici (son sürüm)" --notes "Otomatik derlendi: ${{ github.sha }}" --target ${{ github.sha }}

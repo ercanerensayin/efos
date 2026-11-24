@@ -1,0 +1,34 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <UseWindowsForms>true</UseWindowsForms>
+    <Nullable>disable</Nullable>
+    <NoWarn>$(NoWarn);WFO1000</NoWarn>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <PlatformTarget>x64</PlatformTarget>
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+    <AssemblyName>EFOS</AssemblyName>
+    <RootNamespace>EFOS</RootNamespace>
+    <ApplicationIcon>app.ico</ApplicationIcon>
+    <Product>EFOS Video İndirici</Product>
+    <AssemblyTitle>EFOS Video İndirici</AssemblyTitle>
+    <Company>EFOS</Company>
+    <Version>2.1.0</Version>
+    <PublishSingleFile>true</PublishSingleFile>
+    <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
+    <!-- exe içine yerel klasör yolu (PDB yolu) yazılmasın -->
+    <DebugType>none</DebugType>
+    <DebugSymbols>false</DebugSymbols>
+    <Deterministic>true</Deterministic>
+    <PathMap>$(MSBuildProjectDirectory)=.</PathMap>
+    <SatelliteResourceLanguages>tr</SatelliteResourceLanguages>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.2903.40" />
+  </ItemGroup>
+  <ItemGroup>
+    <!-- Android sürümüyle ORTAK dosya: renkler, metinler, yt-dlp ayarları, hata çevirileri -->
+    <EmbeddedResource Include="..\ortak\efos.json" LogicalName="efos.json" />
+  </ItemGroup>
+</Project>
