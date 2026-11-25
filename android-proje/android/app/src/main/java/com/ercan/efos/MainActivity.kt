@@ -368,6 +368,9 @@ class MainActivity : Activity() {
             if (!medya.referer.isNullOrBlank()) {
                 extra += listOf("--referer", medya.referer)
             }
+            if (!medya.origin.isNullOrBlank()) {
+                extra += listOf("--add-header", "Origin:${medya.origin}")
+            }
             if (medya.userAgent.isNotBlank()) {
                 extra += listOf("--user-agent", medya.userAgent)
             }
