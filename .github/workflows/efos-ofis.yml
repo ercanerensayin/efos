@@ -30,6 +30,7 @@ jobs:
         shell: python
         run: |
           import json, subprocess, sys
+          sys.stdout.reconfigure(encoding="utf-8")  # yalnızca bu betiğin çıktısı için; EXE'ye ortam değişkeni geçmiyor
           reqs = "\n".join(json.dumps(r) for r in [
               {"jsonrpc": "2.0", "id": 1, "method": "initialize"},
               {"jsonrpc": "2.0", "id": 2, "method": "tools/list"},
