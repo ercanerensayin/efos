@@ -6,12 +6,30 @@ import html
 import io
 import os
 import sys
+import unicodedata
 from typing import Dict, List, Optional, Tuple
 
 from PIL import Image
 import pypdfium2 as pdfium
 from pypdf import PdfReader, PdfWriter
 
+
+
+def _fold(text: str) -> str:
+    """Aramada kullanılan, Türkçe İ/I farkını gözetmeyen karşılaştırma biçimi.
+
+    Uzunluk korunur (karakter başına bir karakter), böylece bulunan konum özgün
+    metindeki konumla aynı kalır.
+    """
+    text = unicodedata.normalize("NFC", text)
+    out = []
+    for ch in text:
+        if ch in "İIıi":
+            out.append("i")
+        else:
+            low = ch.lower()
+            out.append(low if len(low) == 1 else ch)
+    return "".join(out)
 
 class PdfDocumentReader:
     """Harici araç gerektirmeden PDF sayfalarını PNG olarak render eder ve metin arar."""
@@ -45,18 +63,33 @@ class PdfDocumentReader:
         return (self._reader.pages[page_index].extract_text() or "").strip()
 
     def search_text(self, query: str) -> List[Tuple[int, str]]:
-        """Tüm sayfalarda büyük/küçük harf duyarsız metin araması yapar."""
-        needle = query.strip().lower()
+        """Tüm sayfalarda büyük/küçük harf duyarsız metin araması yapar.
+
+        Windows yazı tiplerinden çıkarılan metin ayrık aksanlar (u + ¨) ya da harf
+        arasında boşluk içerebildiği için karşılaştırma Unicode normalleştirmesiyle
+        ve gerekirse boşluklar yok sayılarak yapılır.
+        """
+        needle = _fold(query.strip())
         if not needle:
             return []
+        needle_nospace = "".join(needle.split())
         matches: List[Tuple[int, str]] = []
         for idx in range(len(self._reader.pages)):
-            txt = self.get_page_text(idx)
-            low = txt.lower()
+            txt = unicodedata.normalize("NFC", self.get_page_text(idx))
+            low = _fold(txt)
             pos = low.find(needle)
+            length = len(needle)
+            if pos < 0 and needle_nospace:
+                # Boşlukları atıp ara; bulunan yeri özgün metne geri eşle.
+                keep = [i for i, ch in enumerate(low) if not ch.isspace()]
+                squeezed = "".join(low[i] for i in keep)
+                p2 = squeezed.find(needle_nospace)
+                if p2 >= 0:
+                    pos = keep[p2]
+                    length = keep[p2 + len(needle_nospace) - 1] - pos + 1
             if pos >= 0:
                 start = max(0, pos - 35)
-                end = min(len(txt), pos + len(needle) + 55)
+                end = min(len(txt), pos + length + 55)
                 snippet = txt[start:end].replace("\n", " ").strip()
                 matches.append((idx, snippet))
         return matches

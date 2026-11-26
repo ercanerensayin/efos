@@ -249,7 +249,10 @@ class TestAntigravityMcpServer(unittest.TestCase):
             )
             self.assertGreaterEqual(w_pdf["page_count"], 1)
             pdf_search = _call_tool("pdf_read_and_search", {"filepath": pdf_path, "query": "Türkçe"})
-            self.assertGreaterEqual(len(pdf_search["matches"]), 1)
+            self.assertGreaterEqual(
+                len(pdf_search["matches"]), 1,
+                "PDF'ten çıkan metin: " + repr(_call_tool("pdf_read_and_search", {"filepath": pdf_path}))[:600],
+            )
 
             meta_upd = _call_tool(
                 "pdf_metadata",
