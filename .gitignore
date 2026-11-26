@@ -1,0 +1,26 @@
+# Python & Sanal Ortam
+.venv/
+__pycache__/
+*.py[cod]
+*$py.class
+
+# PyInstaller Windows Derleme Çıktıları (EFOS-Ofis.spec depoda tutulur)
+build/
+dist/
+
+# Android ara derleme dosyaları
+android_native/build/
+
+# Geçici kayıt dosyaları
+*.efos-tmp
+*.efos-new
+*.efos-yedek.*
+
+# Yayın imza anahtarları depoya KONMAZ (debug.keystore kişisel kurulum içindir)
+*.jks
+
+# IDE & OS
+.vscode/
+.idea/
+Thumbs.db
+.DS_Store
